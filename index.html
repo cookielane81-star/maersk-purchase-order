@@ -1,86 +1,190 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071f2a">
   <title>Purchase Order Studio · Maersk</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <div class="brand"><img class="brand-logo" src="assets/maersk-logo.png" alt="Maersk"><div class="brand-copy"><strong>Purchase Order</strong><span>Studio</span></div></div>
-      <nav>
-        <button class="nav-item active" data-view="editor"><span>＋</span>Nueva carga</button>
-        <button class="nav-item" data-view="catalog"><span>⌕</span>Catálogos</button>
-      </nav>
-      <div class="sidebar-foot"><span class="status-dot"></span><div><b>Plantilla cargada</b><small>Datos · Tablas · Hoja1</small></div></div>
-    </aside>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <img class="brand-logo" src="assets/maersk-logo.png" alt="Maersk">
+      <div class="brand-copy"><strong>Purchase Order</strong><span>Studio</span></div>
+    </div>
 
-    <main>
-      <header class="topbar">
-        <div class="page-heading"><div class="page-icon"><img src="assets/maersk-symbol.png" alt=""></div><div><p class="eyebrow">GENERADOR DE ÓRDENES DE COMPRA</p><h1 id="pageTitle">Nueva carga</h1></div></div>
-        <div class="top-actions"><button class="btn icon-btn" id="themeBtn" title="Cambiar tema">◐</button><button class="btn secondary" id="saveBtn"><span class="btn-icon">▣</span>Guardar borrador</button><button class="btn primary" id="exportBtn"><span class="btn-icon">⇩</span>Exportar Excel</button></div>
-      </header>
+    <div class="nav-label">OPERACIONES</div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-view="editor" type="button"><span class="nav-icon">＋</span><span>Nueva carga</span></button>
+      <button class="nav-item" data-view="catalog" type="button"><span class="nav-icon">⌕</span><span>Catálogos</span></button>
+    </nav>
 
-      <section id="editorView" class="view active">
-        <div class="metrics">
-          <div class="metric"><span>Órdenes</span><b id="metricGroups">0</b><small>grupos únicos</small></div>
-          <div class="metric"><span>Ítems</span><b id="metricItems">0</b><small>líneas cargadas</small></div>
-          <div class="metric"><span>Total USD</span><b id="metricUsd">$ 0.00</b><small>sin conversión</small></div>
-          <div class="metric"><span>Total PEN</span><b id="metricPen">S/ 0.00</b><small>sin conversión</small></div>
+    <div class="sidebar-foot">
+      <span class="status-dot"></span>
+      <div><b>Plantilla cargada</b><small>Datos · Tablas · Hoja1</small></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="page-heading">
+        <div class="page-icon"><img src="assets/maersk-symbol.png" alt=""></div>
+        <div>
+          <p class="eyebrow">PURCHASE ORDER STUDIO</p>
+          <h1 id="pageTitle">Nueva carga</h1>
+          <p class="page-subtitle">Genera y gestiona órdenes de compra de forma simple y eficiente.</p>
         </div>
+      </div>
 
-        <div class="card">
-          <div class="card-head"><div><h2>Datos de la orden</h2><p>Los campos de cabecera se aplican a los nuevos ítems.</p></div><div class="head-actions"><button class="btn secondary small" id="newOrderBtn" type="button">＋ Nueva orden</button><span class="pill">Paso 1</span></div></div>
-          <div class="form-grid">
-            <label>Grupo<input id="group" type="text" readonly placeholder="Asignando…"><small class="field-help">Grupo previsto. Se confirma al agregar el primer ítem.</small></label>
-            <label>Vendedor / solicitante<input id="seller" placeholder="Nombre y apellido" autocomplete="name"></label><label>ID comprador<select id="buyer"></select></label>
-            <label class="wide">Proveedor<div class="combo"><input id="supplierSearch" placeholder="RUC o razón social" autocomplete="off"><div id="supplierMenu" class="combo-menu"></div></div></label>
-            <label>Moneda<select id="currency"></select></label>
-            <label>OC abierta<select id="openPO"></select></label>
-            <label>Local<select id="local"></select></label>
-            <label>Tipo emergencia<select id="emergency"></select></label>
-            <label class="wide">Nota<input id="note" placeholder="Opcional"></label>
+      <div class="top-actions">
+        <button class="btn icon-btn" id="themeBtn" title="Cambiar tema" type="button">◐</button>
+        <button class="btn secondary" id="saveBtn" type="button"><span>▣</span> Guardar borrador</button>
+        <button class="btn primary" id="exportBtn" type="button"><span>⇩</span> Exportar Excel</button>
+      </div>
+    </header>
+
+    <section id="editorView" class="view active">
+      <div class="metrics">
+        <article class="metric">
+          <div class="metric-icon">▤</div>
+          <div><span>Órdenes</span><b id="metricGroups">0</b><small>grupos únicos</small></div>
+        </article>
+        <article class="metric">
+          <div class="metric-icon">◇</div>
+          <div><span>Ítems</span><b id="metricItems">0</b><small>líneas cargadas</small></div>
+        </article>
+        <article class="metric">
+          <div class="metric-icon">$</div>
+          <div><span>Total USD</span><b id="metricUsd">USD 0.00</b><small>sin conversión</small></div>
+        </article>
+        <article class="metric">
+          <div class="metric-icon">S/</div>
+          <div><span>Total PEN</span><b id="metricPen">S/ 0.00</b><small>sin conversión</small></div>
+        </article>
+      </div>
+
+      <section class="card order-card">
+        <div class="card-head">
+          <div><h2>Datos de la orden</h2><p>Los campos de cabecera se aplican a los nuevos ítems.</p></div>
+          <div class="head-actions">
+            <button class="btn secondary small" id="newOrderBtn" type="button">＋ Nueva orden</button>
+            <span class="pill">Paso 1</span>
           </div>
         </div>
 
         <div id="activeOrderPanel" class="active-order-panel hidden">
-          <div><span class="active-kicker">ORDEN ACTIVA</span><strong id="activeOrderTitle">Grupo —</strong><small id="activeOrderMeta">Agrega más líneas a esta misma orden o finalízala para iniciar otra.</small></div>
-          <button class="btn finish-order" id="finishOrderBtn" type="button">Finalizar y crear nueva orden</button>
+          <div>
+            <span class="active-kicker">ORDEN ACTIVA</span>
+            <strong id="activeOrderTitle">Grupo activo</strong>
+            <small id="activeOrderMeta"></small>
+          </div>
+          <button id="finishOrderBtn" class="btn finish-order" type="button">Finalizar orden</button>
         </div>
 
-        <div class="card">
-          <div class="card-head"><div><h2>Detalle de compra</h2><p>La moneda pertenece a toda la orden. El Alias / PC Analítica se selecciona independientemente en cada línea.</p></div><span class="pill">Paso 2</span></div>
-          <div class="item-entry">
-            <label>Producto<div class="combo product-combo"><input id="productSearch" placeholder="Seleccionar producto…" autocomplete="off"><button type="button" id="productDropdownBtn" class="combo-arrow" aria-label="Ver productos">⌄</button><div id="productMenu" class="combo-menu"></div></div></label>
-            <label class="description">Descripción<input id="description" placeholder="Descripción para la OC"></label>
-            <label class="pc-detail">Alias / PC Analítica<div class="combo"><input id="pcSearch" placeholder="Alias, descripción o código" autocomplete="off"><div id="pcMenu" class="combo-menu"></div></div></label>
-            <label>Cantidad<input id="qty" type="number" min="0.0001" step="any" value="1"></label>
-            <label>Costo unitario<input id="unitCost" type="number" min="0" step="any" placeholder="0.00"></label>
-            <button class="btn primary add" id="addItem">Agregar ítem</button>
+        <div class="form-grid">
+          <label>Grupo
+            <input id="group" type="text" readonly placeholder="Asignando…">
+            <small class="field-help">Grupo previsto. Se confirma al agregar el primer ítem.</small>
+          </label>
+          <label>Vendedor / solicitante<input id="seller" placeholder="Nombre y apellido" autocomplete="name"></label>
+          <label>ID comprador<select id="buyer"></select></label>
+
+          <label class="wide">Proveedor
+            <div class="combo">
+              <input id="supplierSearch" placeholder="RUC o razón social" autocomplete="off">
+              <div id="supplierMenu" class="combo-menu"></div>
+            </div>
+          </label>
+          <label>Moneda<select id="currency"></select></label>
+          <label>OC abierta<select id="openPO"></select></label>
+
+          <label>Local<select id="local"></select></label>
+          <label>Tipo emergencia<select id="emergency"></select></label>
+          <label class="wide note-field">Nota<input id="note" placeholder="Opcional"></label>
+        </div>
+      </section>
+
+      <section class="card detail-card">
+        <div class="card-head">
+          <div><h2>Detalle de compra</h2><p>La moneda pertenece a toda la orden. El Alias / PC Analítica se selecciona independientemente en cada línea.</p></div>
+          <span class="pill">Paso 2</span>
+        </div>
+
+        <div class="item-entry">
+          <label>Producto
+            <div class="combo product-combo">
+              <input id="productSearch" placeholder="Seleccionar producto…" autocomplete="off">
+              <button id="productDropdownBtn" class="combo-arrow" type="button" aria-label="Abrir productos"></button>
+              <div id="productMenu" class="combo-menu"></div>
+            </div>
+          </label>
+
+          <label class="description">Descripción<input id="description" placeholder="Descripción para la OC"></label>
+
+          <label>Alias / PC Analítica
+            <div class="combo">
+              <input id="pcSearch" placeholder="Alias, descripción o código" autocomplete="off">
+              <div id="pcMenu" class="combo-menu"></div>
+            </div>
+          </label>
+
+          <label class="qty-field">Cantidad<input id="qty" type="number" min="0.0001" step="any" value="1"></label>
+          <label class="cost-field">Costo unitario<input id="unitCost" type="number" min="0" step="any" placeholder="0.00"></label>
+          <button class="btn primary add" id="addItem" type="button">Agregar ítem</button>
+        </div>
+      </section>
+
+      <section class="card table-card">
+        <div class="card-head">
+          <div><h2>Órdenes preparadas</h2><p id="tableSubtitle">Aún no hay líneas agregadas.</p></div>
+          <button class="btn secondary small" id="clearBtn" type="button">Limpiar</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Grupo</th><th>Vendedor</th><th>Comprador</th><th>Proveedor</th>
+              <th>Producto</th><th>Descripción</th><th>Moneda</th><th>Alias / PC</th>
+              <th class="num">Cant.</th><th class="num">Costo unit.</th><th class="num">Total</th><th></th>
+            </tr></thead>
+            <tbody id="itemsBody"></tbody>
+          </table>
+          <div id="emptyState" class="empty">
+            <div class="empty-icon">▤</div><b>No hay ítems en esta orden</b>
+            <span>Busca un producto y agrégalo para comenzar.</span>
           </div>
         </div>
-
-        <div class="card table-card">
-          <div class="card-head"><div><h2>Órdenes preparadas</h2><p id="tableSubtitle">Aún no hay líneas agregadas.</p></div><div class="head-actions"><button class="btn secondary small" id="clearBtn">Limpiar</button></div></div>
-          <div class="table-wrap"><table><thead><tr><th>Grupo</th><th>Vendedor</th><th>Comprador</th><th>Proveedor</th><th>Producto</th><th>Descripción</th><th>Moneda</th><th>Alias / PC</th><th class="num">Cant.</th><th class="num">Costo unit.</th><th class="num">Total</th><th></th></tr></thead><tbody id="itemsBody"></tbody></table><div id="emptyState" class="empty"><div>▤</div><b>No hay ítems todavía</b><span>Completa la cabecera y agrega la primera línea de compra.</span></div></div>
-        </div>
       </section>
+    </section>
 
-      <section id="catalogView" class="view">
-        <div class="card"><div class="card-head"><div><h2>Catálogos de la plantilla</h2><p>Información tomada del archivo Excel original.</p></div><input id="catalogSearch" class="catalog-search" placeholder="Buscar en catálogos"></div>
-          <div class="tabs"><button class="tab active" data-tab="products">Productos <span id="prodCount"></span></button><button class="tab" data-tab="pcs">PC / Analítica <span id="pcCount"></span></button><button class="tab" data-tab="buyers">Compradores <span id="buyerCount"></span></button><button class="tab" data-tab="locals">Locales <span id="localCount"></span></button></div>
-          <div id="catalogTable" class="catalog-table"></div>
+    <section id="catalogView" class="view">
+      <section class="card catalog-card">
+        <div class="card-head catalog-head">
+          <div><h2>Catálogos de la plantilla</h2><p>Consulta productos, PC / Analítica, compradores y locales.</p></div>
+          <div class="search-box"><span>⌕</span><input id="catalogSearch" class="catalog-search" placeholder="Buscar en catálogos…"></div>
         </div>
+        <div class="tabs">
+          <button class="tab active" data-tab="products">Productos <span id="prodCount"></span></button>
+          <button class="tab" data-tab="pcs">PC / Analítica <span id="pcCount"></span></button>
+          <button class="tab" data-tab="buyers">Compradores <span id="buyerCount"></span></button>
+          <button class="tab" data-tab="locals">Locales <span id="localCount"></span></button>
+        </div>
+        <div id="catalogTable" class="catalog-table"></div>
       </section>
-    </main>
-  </div>
-  <div id="toast" class="toast"></div>
-  <script src="data/catalogs.js"></script>
-  <script src="data/config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="app.js"></script>
-</body></html>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="data/catalogs.js"></script>
+<script src="data/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

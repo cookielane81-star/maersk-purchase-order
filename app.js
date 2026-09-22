@@ -30,31 +30,7 @@ async function finishCurrentOrder(showToast=true){if(!currentGroup)return prepar
 async function prepareNewOrder(showToast=true){currentGroup=null;currentOrderToken=newOrderToken();setOrderLocked(false);clearHeader();const n=await refreshGroupPreview();if(showToast)toast(`Nueva orden preparada · Grupo previsto ${n}`)}
 $('newOrderBtn').onclick=()=>currentGroup?finishCurrentOrder(true):prepareNewOrder(true);$('finishOrderBtn').onclick=()=>finishCurrentOrder(true);
 function normalizeRemote(x){return {id:x.id,group:Number(x.group_no),seller:x.seller,buyer:x.buyer,supplierId:x.supplier_id,supplierName:x.supplier_name,currency:x.currency,productId:x.product_id,description:x.description,qty:Number(x.qty),cost:Number(x.cost),total:Number(x.total),local:x.local_id,alias:x.alias,note:x.note||'',open:x.open_po||'',emergency:x.emergency||'',pcCode:x.pc_code||'',orderToken:x.order_token||''}}
-
-async function loadItems(){
-  if(remote){
-    const {data,error}=await db
-      .from('po_items')
-      .select('*')
-      .order('id');
-
-    if(error){
-      toast('No se pudo sincronizar la bandeja compartida.');
-      return;
-    }
-
-    items=(data||[]).map(normalizeRemote);
-  }else{
-    items=JSON.parse(localStorage.getItem('po_items')||'[]');
-  }
-
-  render();
-
-  if(!currentGroup){
-    await refreshGroupPreview();
-  }
-}
-
+async function loadItems(){if(remote){const {data,error}=await db.from('po_items').select('*').order('id');if(error){toast('No se pudo sincronizar la bandeja compartida.');return}items=(data||[]).map(normalizeRemote)}else items=JSON.parse(localStorage.getItem('po_items')||'[]');render();if(!currentGroup)showNextGroup()}
 function persistLocal(){if(!remote)localStorage.setItem('po_items',JSON.stringify(items))}
 $('addItem').onclick=async()=>{let qty=+$('qty').value,cost=+$('unitCost').value,seller=$('seller').value.trim();if(!seller||!$('buyer').value||!selectedSupplier||!$('currency').value||!$('local').value||!selectedPC||!selectedProduct||!$('description').value.trim()||qty<=0||cost<0){toast('Completa los campos obligatorios, incluido el vendedor.');return}try{
 let base={seller,buyer:$('buyer').value,supplierId:selectedSupplier.id,supplierName:selectedSupplier.name,currency:$('currency').value,productId:selectedProduct.code,description:$('description').value.trim(),qty,cost,total:qty*cost,local:$('local').value,alias:selectedPC.alias,note:$('note').value.trim(),open:$('openPO').value,emergency:$('emergency').value,pcCode:selectedPC.code};
